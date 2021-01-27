@@ -2,14 +2,17 @@ const express = require("express");
 const config = require("./config/config");
 const expressConfig = require("./config/express")
 
+const routes = require("./routes")
+
 
 const app = express();
 
 expressConfig(app);
+app.use(routes);
 
-app.get("/", (req, res) => {
-    res.render("home", {layout: false});
-})
+// app.get("/", (req, res) => {
+//     res.render("home", {layout: false});
+// })
 
 
 
