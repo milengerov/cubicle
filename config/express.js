@@ -11,6 +11,12 @@ function setUpExpress(app) {
     app.set("view engine", "hbs");
     
     app.use(express.static("static"));
+
+    app.use(express.urlencoded({    // set body parser
+        extended: true 
+    }));
+
+    
 }
 
 
