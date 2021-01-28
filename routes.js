@@ -3,13 +3,13 @@
 
 const { Router } = require("express");
 const productController = require("./controllers/productControllers")
-const aboutController = require("./controllers/aboutControllers")
+const homeController = require("./controllers/homeControllers")
 
 const router = Router();
 
 
-router.use("/", productController);
-router.use("/about", aboutController);
+router.use("/", homeController);
+router.use("/products", productController);
 
 router.get("*", (req, res) => {
     res.render("404");   //{ layout: "main.hbs" } as second arg.  Default!
