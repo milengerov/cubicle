@@ -37,4 +37,5 @@ function create(formData) {
 
 module.exports = {
     create,
+    getAll
 }
