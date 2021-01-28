@@ -11,5 +11,9 @@ const router = Router();
 router.use("/", productController);
 router.use("/about", aboutController);
 
+router.get("*", (req, res) => {
+    res.render("404");   //{ layout: "main.hbs" } as second arg.  Default!
+});
+
 
 module.exports = router
