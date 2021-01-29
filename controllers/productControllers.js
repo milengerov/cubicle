@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const productService = require("../services/productService")
+const {validateInputs} = require("./helpers/helpers")
 
 const router = Router();
 
@@ -15,10 +16,10 @@ router.get("/create", (req, res) => {
     
 });
 
-router.post("/create", (req, res) => {
+router.post("/create", validateInputs, (req, res) => {
     // console.log(req.body);
     
-    // TODO: Validate inputs later!
+    // TODO: Validate inputs later! => done with middleware in helpers!
     
 
     let formData = req.body;
@@ -28,9 +29,12 @@ router.post("/create", (req, res) => {
     
 })
 
-router.get("/details/:productId", (rec, res) => {
-    res.render("details", {title: "Product Details"})
+router.get("/details/:productId", (req, res) => {
+    const currentId = req.params.productId;
+    const currentCube = productService.getOne(currentId);
+    res.render("details", {title: "Product Details", currentCube})
 })
+
 
 
 module.exports = router
