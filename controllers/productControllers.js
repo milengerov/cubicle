@@ -23,8 +23,13 @@ router.post("/create", validateInputs, (req, res) => {
     
 
     let formData = req.body;
-    productService.create(formData);
-    res.redirect("/products");
+
+    productService.create(formData, (err) => {
+        if (err) {
+            return res.status(400).end()
+        }
+        res.redirect("/products");
+    });
 
     
 })

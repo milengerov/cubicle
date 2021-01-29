@@ -30,16 +30,15 @@ function create(formData) {
     let products = getAll();
     products.push(cube);
 
-    console.log(path.resolve("./config/products.json"));
-    console.log(path.resolve(__dirname, "../config/products.json"));
+   
  
 
-    // fs.writeFile(path.resolve("./config/products.json"), JSON.stringify(products), (err) => {
-    //      if (err) {
-    //          throw err;
-    //      }
+    fs.writeFile(path.resolve("./config/products.json"), JSON.stringify(products), (err) => {
+         if (err) {
+             throw err;
+         }
          
-    // })
+    })
 
 }
 
