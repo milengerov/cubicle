@@ -7,9 +7,10 @@ const productData = require("../data/productData")
 
 
 
-function getAll(queries) {
-    let products = productData.getAll();
+async function getAll(queries) {
+    // let products = productData.getAll();
     // let products = Cube.getAll()
+    let products = await Cube.find({}).lean();
     console.log(queries);
 
 
@@ -24,15 +25,16 @@ function getAll(queries) {
     if (queries.to) {
         products = products.filter(cube => Number(cube.difficultyLevel) <= queries.to)
     }
-    console.log(products);
+    
 
     return products;
 }
 
-function getOne(id) {
+async function getOne(id) {
     // return products.find(x => x.id === id);
-    return productData.getOne(id);
+    // return productData.getOne(id);
     // return Cube.getOne(id);
+    return await Cube.findById(id).lean();
 }
 
 

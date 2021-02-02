@@ -7,8 +7,12 @@ const router = Router();
 
 router.get("/", (req, res) => {
     let queries = req.query;
-    let products = productService.getAll(queries);
-    res.render("home", { title: "Browse", products });
+    productService.getAll(queries)
+        .then((products) => {
+            console.log(products);
+            res.render("home", { title: "Browse", products });
+        })
+        .catch(() => res.status(400))
 
 });
 
@@ -26,7 +30,7 @@ router.post("/create", validateInputs, (req, res) => {
     let formData = req.body;
     productService.create(formData)
         .then(() => res.redirect("/products"))
-        .catch(() => res.status(400))
+        .catch(() => res.status(400));
 
 
     //with callback:
@@ -39,9 +43,10 @@ router.post("/create", validateInputs, (req, res) => {
 
 })
 
-router.get("/details/:productId", (req, res) => {
+router.get("/details/:productId", async (req, res) => {
     const currentId = req.params.productId;
-    const currentCube = productService.getOne(currentId);
+    let currentCube = await productService.getOne(currentId)
+        
     res.render("details", { title: "Product Details", currentCube })
 })
 
