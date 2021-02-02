@@ -22,8 +22,13 @@ router.post("/create", validateInputs, (req, res) => {
 
     // TODO: Validate inputs later! => done with middleware in helpers!
 
-
+    // with promise:
     let formData = req.body;
+    productService.create(formData)
+        .then(() => res.redirect("/products"))
+        .catch(() => res.status(400))
+
+
     //with callback:
     // productService.create(formData, (err) => {
     //     if (err) {
@@ -31,12 +36,6 @@ router.post("/create", validateInputs, (req, res) => {
     //     }
     //     res.redirect("/products");
     // });
-
-    // with promise:
-    productService.create(formData)
-        .then(() => res.redirect("/products"))
-        .catch(() => res.status(400))
-
 
 })
 
