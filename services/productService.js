@@ -1,17 +1,17 @@
 const Cube = require("../models/Cube");
-const uniqid = require("uniqid")
+// const uniqid = require("uniqid")
 
-// const productData = require("../data/productData")
+const productData = require("../data/productData")
 
 
 
 
 
 function getAll(queries) {
-    // let products = productData.getAll();
-    let products = Cube.getAll()
+    let products = productData.getAll();
+    // let products = Cube.getAll()
     console.log(queries);
-    
+
 
     if (queries.search) {
         products = products.filter(cube => cube.name.toLowerCase().includes(queries.search.toLowerCase()));
@@ -31,25 +31,29 @@ function getAll(queries) {
 
 function getOne(id) {
     // return products.find(x => x.id === id);
-    // return productData.getOne(id);
-    return Cube.getOne(id);
+    return productData.getOne(id);
+    // return Cube.getOne(id);
 }
 
 
 function create(formData, callback) {       //create is async func, that's why with callback - old way
 
-    let cube = new Cube(
-        uniqid(),
-        formData.name,
-        formData.description,
-        formData.imageUrl,
-        formData.difficultyLevel);
 
-    
-    // return productData.create(cube);
+    let cube =new Cube(formData);
     return cube.save();
 
-    
+
+    // let cube = new Cube(
+    //     uniqid(),
+    //     formData.name,
+    //     formData.description,
+    //     formData.imageUrl,
+    //     formData.difficultyLevel);
+
+    // return productData.create(cube);
+    // return cube.save();
+
+
 
 }
 
