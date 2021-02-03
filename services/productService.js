@@ -1,9 +1,8 @@
 const Cube = require("../models/Cube");
 // const uniqid = require("uniqid")
 
-const productData = require("../data/productData")
-
-
+const productData = require("../data/productData");
+const Accessory = require("../models/Accessory");
 
 
 
@@ -25,7 +24,7 @@ async function getAll(queries) {
     if (queries.to) {
         products = products.filter(cube => Number(cube.difficultyLevel) <= queries.to)
     }
-    
+
 
     return products;
 }
@@ -37,11 +36,16 @@ async function getOne(id) {
     return await Cube.findById(id).lean();
 }
 
+async function getOneWithAccessories(id) {
+
+    return await Cube.findById(id).populate("accessories").lean();
+}
+
 
 function create(formData, callback) {       //create is async func, that's why with callback - old way
 
 
-    let cube =new Cube(formData);
+    let cube = new Cube(formData);
     return cube.save();
 
 
@@ -54,13 +58,24 @@ function create(formData, callback) {       //create is async func, that's why w
 
     // return productData.create(cube);
     // return cube.save();
+}
 
 
+async function attachAccessory(cubeId, accessoryId) {
+    let currentCube = await Cube.findById(cubeId);    
+    let accessory = await Accessory.findById(accessoryId);
 
+    console.log(accessory);
+    console.log(currentCube);
+
+    currentCube.accessories.push(accessory);
+    return currentCube.save();
 }
 
 module.exports = {
     create,
     getAll,
     getOne,
+    getOneWithAccessories,
+    attachAccessory,
 }

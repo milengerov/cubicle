@@ -1,6 +1,7 @@
 const { Router } = require("express");
-const productService = require("../services/productService")
-const { validateInputs } = require("./helpers/helpers")
+const productService = require("../services/productService");
+const accessoryService = require("../services/accessoryService");
+const { validateInputs } = require("./helpers/helpers");
 
 const router = Router();
 
@@ -41,39 +42,35 @@ router.post("/create", validateInputs, (req, res) => {
     //     res.redirect("/products");
     // });
 
-})
+});
 
 router.get("/details/:productId", async (req, res) => {
     const currentId = req.params.productId;
-    let currentCube = await productService.getOne(currentId)
-        
+    // let currentCube = await productService.getOne(currentId);
+    let currentCube = await productService.getOneWithAccessories(currentId);
+    console.log("=================================================================");
+    console.log(currentCube);
+
     res.render("details", { title: "Product Details", currentCube })
-})
+});
+
+
+router.get("/:productId/attach", async (req, res) => {
+    const currentId = req.params.productId;
+    let currentCube = await productService.getOne(currentId);
+    let accessories = await accessoryService.getAll();
+    res.render("attachAccessory", { currentCube, accessories });
+
+});
+
+router.post("/:productId/attach", (req, res) => {
+    productService.attachAccessory(req.params.productId, req.body.accessory)
+        .then(() => res.redirect(`/products/details/${req.params.productId}`))
+
+});
 
 
 
 module.exports = router
 
 
-// const productControlers = {
-//     index(req, res) {
-//         res.render("home", {layout = false});
-//     },
-//     create(req, res) {
-//         res.render("create", {layout = false});
-//     },
-// }
-
-// module.exports = productControlers;
-
-
-
-// with func:
-// function index(req, res) {
-//     res.render("home", { layout = false });
-// }
-
-// router.get("/", index);
-
-
-//directly pass arrow func as second arg
