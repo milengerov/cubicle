@@ -58,7 +58,8 @@ router.get("/details/:productId", async (req, res) => {
 router.get("/:productId/attach", async (req, res) => {
     const currentId = req.params.productId;
     let currentCube = await productService.getOne(currentId);
-    let accessories = await accessoryService.getAll();
+    // let accessories = await accessoryService.getAll();
+    let accessories = await accessoryService.getAllNotAttached(currentCube.accessories);
     res.render("attachAccessory", { currentCube, accessories });
 
 });

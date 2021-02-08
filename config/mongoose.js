@@ -1,11 +1,12 @@
 
 const mongoose = require("mongoose");
+const config = require("./config")
 
 
 
 module.exports = (app) => {
     //first connenct mongoose with db named cubicles:
-    mongoose.connect("mongodb://localhost/cubicle", {
+    mongoose.connect(config.DB_CONNECTION, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
