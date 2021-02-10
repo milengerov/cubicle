@@ -12,7 +12,7 @@ function setUpExpress(app) {
     
     app.use(express.static("static"));
 
-    app.use(express.urlencoded({    // set body parser
+    app.use(express.urlencoded({    // set body parser to get form data in req.
         extended: true 
     }));
 
