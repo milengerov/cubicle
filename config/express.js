@@ -1,5 +1,8 @@
 const express = require("express");
 const handlebars = require("express-handlebars");
+const cookieParser = require("cookie-parser")
+
+const auth = require("../middlewares/auth");
 
 
 function setUpExpress(app) {
@@ -15,6 +18,12 @@ function setUpExpress(app) {
     app.use(express.urlencoded({    // set body parser to get form data in req.
         extended: true 
     }));
+
+    app.use(cookieParser());
+
+    app.use(auth());
+
+
 
     
 }

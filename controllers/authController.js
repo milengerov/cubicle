@@ -5,18 +5,24 @@ const router = require("express").Router();
 const authService = require("../services/authService");
 const config = require("../config/config")
 
+//middlewars:
+const isAuthenticated = require("../middlewares/isAuthenticated");
+const isGuest = require("../middlewares/isGuest");
 
-router.get("/login", (req, res) => {
+
+
+
+router.get("/login", isGuest, (req, res) => {
     res.render("login", { title: "Login Page" });
 
 });
 
-router.get("/register", (req, res) => {
+router.get("/register", isGuest, (req, res) => {
     res.render("register", { title: "Register" });
 
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", isGuest, async (req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -36,7 +42,7 @@ router.post("/login", async (req, res) => {
 
 
 
-router.post("/register", async (req, res) => {
+router.post("/register", isGuest, async (req, res) => {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
@@ -54,6 +60,12 @@ router.post("/register", async (req, res) => {
     }
 
 });
+
+router.get("/logout", isAuthenticated,(req, res) => {
+    console.log("logout");
+    res.clearCookie(config.COOKIE_NAME);
+    res.redirect("/products");
+})
 
 
 

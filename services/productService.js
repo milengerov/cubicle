@@ -10,7 +10,7 @@ async function getAll(queries) {
     // let products = productData.getAll();
     // let products = Cube.getAll()
     let products = await Cube.find({}).lean();
-    console.log(queries);
+    // console.log(queries);
 
 
     if (queries.search) {
@@ -42,10 +42,10 @@ async function getOneWithAccessories(id) {
 }
 
 
-function create(formData, callback) {       //create is async func, that's why with callback - old way
+function create(formData, userId, callback) {       //create is async func, that's why with callback - old way
 
 
-    let cube = new Cube(formData);
+    let cube = new Cube({...formData, creator: userId});
     return cube.save();
 
 
@@ -65,11 +65,19 @@ async function attachAccessory(cubeId, accessoryId) {
     let currentCube = await Cube.findById(cubeId);    
     let accessory = await Accessory.findById(accessoryId);
 
-    console.log(accessory);
-    console.log(currentCube);
+    // console.log(accessory);
+    // console.log(currentCube);
 
     currentCube.accessories.push(accessory);
     return currentCube.save();
+}
+
+async function updateOne(cubeId, updatedData) {
+    return Cube.updateOne({_id: cubeId }, updatedData)
+}
+
+async function deleteOne(cubeId) {
+    return Cube.deleteOne({_id: cubeId });
 }
 
 module.exports = {
@@ -78,4 +86,6 @@ module.exports = {
     getOne,
     getOneWithAccessories,
     attachAccessory,
+    updateOne,
+    deleteOne
 }

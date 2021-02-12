@@ -41,7 +41,7 @@ async function login({username, password}) {
     //compare password hash
 
     //generate token   
-    let token = jsonwebtoken.sign({_id: user._id}, SECRET)
+    let token = jsonwebtoken.sign({_id: user._id, roles: ["admin"]}, SECRET)    //add some info to be contained in token
     return token;
 }
 
